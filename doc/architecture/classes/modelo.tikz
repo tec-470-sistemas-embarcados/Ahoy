@@ -1,0 +1,10 @@
+\begin{center}
+	\begin{tikzpicture}
+	\umlclass[type=class]{Modulo Comunicacao}{
+	+ mensagem\_enviada : output bit [8] \\
+	+ mensagem\_recebida : input bit [8] \\  }
+	{- <<sequ>> enviar\_codigo\_SMS()\\
+	 - <<sequ>> receber\_codigo\_SMS()\\
+	 - <<sequ>> enviar\_comando()}
+	\end{tikzpicture}
+\end{center}

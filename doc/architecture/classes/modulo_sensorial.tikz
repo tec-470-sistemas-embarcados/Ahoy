@@ -1,0 +1,10 @@
+\begin{center}
+	\begin{tikzpicture}
+	\umlclass[type=class]{Modulo Sensorial}{
+	+ temperatura\_estufa : output bit [10] \\
+	+ temperatura\_ambiente : output bit [10] \\ 
+	+ luminosidade\_ambiente : output bit [10] \\
+	+ nivel\_bateria : output }
+	{}
+	\end{tikzpicture}
+\end{center}

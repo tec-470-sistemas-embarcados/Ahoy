@@ -1,0 +1,28 @@
+\begin{center}
+	\begin{tikzpicture}
+	\umlclass[type=class]{Central Controle}{
+	+ temperatura\_estufa : input bit [10] \\
+	+ temperatura\_ambiente : input bit [10] \\ 
+	+ luminosidade\_ambiente : input bit [10] \\
+	+ nivel\_bateria : input \\
+	+ mensagem\_recebida : input byte [8] \\
+	+ mensagem\_enviada : output byte [8] \\ 
+	+ en\_sa : output \\
+	+ en\_cp : output \\
+	+ comando : output bit[2] \\}
+	{- <<comb>> ler\_sensor\_temperatura() \\
+	- <<comb>> realizar\_conversao\_ad()\\
+	- <<comb>> verificar\_status\_sistema\_aquecimento()\\
+	- <<comb>> abrir\_porta\_estufa()
+	- <<comb>> fechar\_porta\_estufa() \\
+	- <<comb>> ligar\_sistema\_aquecimento()\\
+	- <<comb>> desligar\_sistema\_aquecimento()\\
+	- <<comb>> acender\_LED\_sistema\_aquecimento()\\
+	- <<comb>> apagar\_LED\_sistema\_aquecimento()\\
+	- <<sequ>> enviar\_status\_sistema\_aquecimento()\\
+	- <<sequ>> enviar\_temp\_ambiente()\\
+	- <<sequ>> enviar\_luminosidade()\\
+	-<<sequ>> enviar\_carga\_bateria()\\  		
+	}
+	\end{tikzpicture}
+\end{center}

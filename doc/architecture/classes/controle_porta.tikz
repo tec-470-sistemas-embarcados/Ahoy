@@ -1,0 +1,8 @@
+\begin{center}
+	\begin{tikzpicture}
+	\umlclass[type=class]{Controle Porta}{
+	+ comando : input bit [2] \\
+	+ en\_cp : input \\}
+	{-<<circ>> controla\_porta()\\}
+	\end{tikzpicture}
+\end{center}

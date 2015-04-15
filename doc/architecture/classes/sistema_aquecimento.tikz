@@ -1,0 +1,8 @@
+\begin{center}
+	\begin{tikzpicture}
+	\umlclass[type=class]{Sistema Aquecimento}{
+	+ en\_sa : input bit \\
+	}
+	{}
+	\end{tikzpicture}
+\end{center}

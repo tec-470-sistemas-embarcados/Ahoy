@@ -1,0 +1,12 @@
+\begin{center}
+	\begin{tikzpicture}
+	\umlclass[type=class]{EmissorReceptorMensagem}{
+	- mensagem\_recebida : String \\
+	- mensagem\_a\_enviar : String \\ 
+	}
+	{+ extrairInformacaoMensagem(): void \\
+	 + enviaMensagem() : boolean \\
+	 + getMensagemRecebida() : String \\}
+	\end{tikzpicture}
+	
+\end{center}

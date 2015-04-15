@@ -1,0 +1,40 @@
+\select@language {brazil}
+\contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{4}
+\contentsline {section}{\numberline {\color {gray}1}Prop\IeC {\'o}sito do Documento}{4}
+\contentsline {section}{\numberline {\color {gray}2}Vis\IeC {\~a}o Geral do Documento}{4}
+\contentsline {section}{\numberline {\color {gray}3}Defini\IeC {\c c}\IeC {\~o}es}{5}
+\contentsline {section}{\numberline {\color {gray}4}Acr\IeC {\^o}nimos e Abrevia\IeC {\c c}\IeC {\~o}es}{5}
+\contentsline {chapter}{\numberline {2}Vis\IeC {\~a}o Geral da Arquitetura}{6}
+\contentsline {section}{\numberline {\color {gray}1}Introdu\IeC {\c c}\IeC {\~a}o}{6}
+\contentsline {section}{\numberline {\color {gray}2}Descri\IeC {\c c}\IeC {\~a}o Geral da Arquitetura}{6}
+\contentsline {subsection}{\numberline {\color {gray}2.1}Defini\IeC {\c c}\IeC {\~o}es dos blocos}{7}
+\contentsline {section}{\numberline {\color {gray}3}Diagrama de Atividade}{8}
+\contentsline {section}{\numberline {\color {gray}4}Diagrama de Sequ\IeC {\^e}ncia}{9}
+\contentsline {section}{\numberline {\color {gray}5}Diagrama de Estado}{16}
+\contentsline {section}{\numberline {\color {gray}6}Ambiente de Desenvolvimento}{18}
+\contentsline {chapter}{\numberline {3}Descri\IeC {\c c}\IeC {\~a}o da Arquitetura de Hardware}{20}
+\contentsline {section}{\numberline {\color {gray}1}Introdu\IeC {\c c}\IeC {\~a}o}{20}
+\contentsline {section}{\numberline {\color {gray}2}Datapath}{20}
+\contentsline {section}{\numberline {\color {gray}3}Esquema El\IeC {\'e}trico}{20}
+\contentsline {section}{\numberline {\color {gray}4}M\IeC {\'o}dulo de Comunica\IeC {\c c}\IeC {\~a}o}{23}
+\contentsline {subsection}{\numberline {\color {gray}4.1}Descri\IeC {\c c}\IeC {\~a}o}{23}
+\contentsline {subsection}{\numberline {\color {gray}4.2}Diagrama de Classe}{23}
+\contentsline {subsection}{\numberline {\color {gray}4.3}Defini\IeC {\c c}\IeC {\~o}es de Entrada e Sa\IeC {\'\i }da}{23}
+\contentsline {section}{\numberline {\color {gray}5}M\IeC {\'o}dulo Sensorial}{23}
+\contentsline {subsection}{\numberline {\color {gray}5.1}Diagrama de Classe}{24}
+\contentsline {subsection}{\numberline {\color {gray}5.2}Defini\IeC {\c c}\IeC {\~o}es de Entrada e Sa\IeC {\'\i }da}{24}
+\contentsline {section}{\numberline {\color {gray}6}Controle de Porta}{24}
+\contentsline {subsection}{\numberline {\color {gray}6.1}Descri\IeC {\c c}\IeC {\~a}o}{24}
+\contentsline {subsection}{\numberline {\color {gray}6.2}Diagrama de Classe}{24}
+\contentsline {subsection}{\numberline {\color {gray}6.3}Defini\IeC {\c c}\IeC {\~o}es de Entrada e Sa\IeC {\'\i }da}{25}
+\contentsline {section}{\numberline {\color {gray}7}Sistema de Aquecimento}{25}
+\contentsline {subsection}{\numberline {\color {gray}7.1}Descri\IeC {\c c}\IeC {\~a}o}{25}
+\contentsline {subsection}{\numberline {\color {gray}7.2}Diagrama de Classe}{25}
+\contentsline {subsection}{\numberline {\color {gray}7.3}Defini\IeC {\c c}\IeC {\~o}es de Entrada e Sa\IeC {\'\i }da}{25}
+\contentsline {section}{\numberline {\color {gray}8}Controle Central}{25}
+\contentsline {subsection}{\numberline {\color {gray}8.1}Descri\IeC {\c c}\IeC {\~a}o}{25}
+\contentsline {subsection}{\numberline {\color {gray}8.2}Diagrama de Classe}{26}
+\contentsline {subsection}{\numberline {\color {gray}8.3}Defini\IeC {\c c}\IeC {\~o}es de Entrada e Sa\IeC {\'\i }da}{26}
+\contentsline {chapter}{\numberline {4}Descri\IeC {\c c}\IeC {\~a}o da Arquitetura de Software}{28}
+\contentsline {section}{\numberline {\color {gray}1}Introdu\IeC {\c c}\IeC {\~a}o}{28}
+\contentsline {section}{\numberline {\color {gray}2}Diagrama de Classe}{28}

@@ -1,0 +1,10 @@
+\begin{center}
+	\begin{tikzpicture}
+	\umlclass[type=class]{FormatarDados}{
+	- mensagem : String \\
+	}
+	{+ formatarMensagem():void \\
+	 + getMensagem() : String}
+	\end{tikzpicture}
+	
+\end{center}
