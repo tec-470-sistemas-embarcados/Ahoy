@@ -15,8 +15,6 @@
 #include "./USB/usb_function_hid.h"
 
 #include <timers.h>
-#include <delays.h>
-#include <i2c.h>
 
 //===================================================================
 // CONFIGURATION
@@ -78,6 +76,9 @@ USB_HANDLE USBInHandle = 0;
 
 unsigned char ch =0 ;
 int i = 0, j, k;
+unsigned char ReceivedDataBuffer[64];
+unsigned char ToSendDataBuffer[64];
+
 
 //Formato padrão do sms
 unsigned char sms_format[]="AT+CMGF=1\r";   // TEXT mode
@@ -88,17 +89,18 @@ unsigned char character_set[]="AT+CSCS=\"GSM\"\r";
 unsigned char stringArray[6]; //Armazenamento das informações dos sms recebido
 unsigned char sms_terminate=0x1A;  //Ctrl+z
 unsigned char enter=0x0D;  // Enter Key
-
+unsigned char sms[64];
 //===================================================================
 // PRIVATE PROTOTYPES
 //-------------------------------------------------------------------
-
+void initData();
 static void InitializeSystem(void);
-//void ProcessIO(void);
+void ProcessIO(void);
 void YourHighPriorityISRCode();
 void YourLowPriorityISRCode();
 void tx_data(unsigned char serial_data);     // Transmissão de dados
-void transmit( unsigned char array2[], int size2); // Para transmitir alguma String para o pino tx
+unsigned char rx_data(void); //recepção de dados
+void transmit(unsigned char array2[], int size2); // Para transmitir alguma String para o pino tx
 
 //===================================================================
 // VECTOR REMAPPING
@@ -180,6 +182,8 @@ void transmit( unsigned char array2[], int size2); // Para transmitir alguma Str
 #pragma code
 
 void main(void){
+	
+	InitializeSystem();		
 
     TRISBbits.RB1 = 1; // Para enviar um SMS
 	TRISBbits.RB2= 1; // Para receber um SMS
@@ -197,7 +201,6 @@ void main(void){
     #if defined(USB_INTERRUPT)
         USBDeviceAttach();
     #endif
-
 
     while(1)
     {
@@ -234,7 +237,7 @@ void main(void){
              Delay10KTCYx(250);
              Delay10KTCYx(250);
              Delay10KTCYx(250);
-
+			
              transmit(sms, sizeof(sms));  // Envia para GSM: Escrevendo o sms  
              tx_data(sms_terminate);  // Fim da transmissão. ctrl+z. So serve de teste
 
@@ -262,12 +265,36 @@ void main(void){
              {
                   stringArray[k] = ch;
              } 	    				  
-
+			}
 		// Tarefas especificas da aplicação
 		// Devem ser adicionadas aqui ou na função ProcessIO()
-        //ProcessIO();        
+        ProcessIO();        
     }//end while
 }//end main
+
+void UserInit(void)
+{
+    //initialize the variable holding the handle for the last
+    // transmission
+    USBOutHandle = 0;
+    USBInHandle = 0;
+
+	// Habilitar chave de interrupções
+	
+	INTCONbits.GIE = 1;
+	INTCONbits.PEIE = 1;
+
+	for(i=0;i<64;i++){
+		sms[i]=  0;
+	}
+
+	for(i=0;i<64; i++){
+		ToSendDataBuffer[i] = 0;
+	}
+
+}//end UserInit
+
+
 	
 /********************************************************************
  * Function:        void rx_data(void)
@@ -357,7 +384,7 @@ void transmit( unsigned char array2[], int size2)
  *
  * Note:            None
  *******************************************************************/
-/*
+
 void ProcessIO(void)
 {
 	static int j, l, k;
@@ -380,14 +407,16 @@ void ProcessIO(void)
 
 	if(!HIDTxHandleBusy(USBInHandle))
     {
-
+		for(j = 0; j < 64; j++){
+			ToSendDataBuffer[i] = sms[i];
+		}
 		// Envia os dados
        	USBInHandle = HIDTxPacket(HID_EP,(BYTE*)&ToSendDataBuffer[0],64);
 			
     }
     
 }//end ProcessIO
-*/
+
 
 
 
