@@ -1,0 +1,14 @@
+Padrão de mensagens utilizado na comunicação com o aplicativo Android
+
+- App -> Placa GPRS:
+
+    Requisição para aquisição dos dados:
+        • attinfo
+
+    Ligar/Desligar cortina de vento:
+        • ligdescort
+
+- Placa GPRS -> App:
+
+    Dados requisitados:
+        • temp:[valor];lumi:[valor];porta:[aber/fech];cortina:[on/off]
