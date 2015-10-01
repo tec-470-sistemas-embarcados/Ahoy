@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width"/>
+    <title>Hello World</title>
+    <link rel="stylesheet" type="text/css" href="css/ionic.min.css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="jquery-1.9.js"></script>
+    <style type="text/css">
+        #datahora {
+            margin-top: 53px;
+            text-align: right;
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body onload="onLoad()">
+<script>
+    function onLoad() {
+        if (( /(ipad|iphone|ipod|android)/i.test(navigator.userAgent) )) {
+            document.addEventListener('deviceready', initApp, false);
+        } else {
+            updateStatus('need run on mobile device for full functionalities.');
+        }
+    }
+
+    function onPrompt(results) {
+        if (results.buttonIndex != 1) {
+            if(!window.localStorage['numDispositivo'])
+                alterar();
+        } else {
+            window.localStorage['numDispositivo'] = results.input1;
+        }
+    }
+
+    function initApp() {
+        if (!SMS) {
+            alert('SMS plugin not ready');
+            return;
+        }
+
+        document.addEventListener('onSMSArrive', function (e) {
+            var sms = e.data;
+
+            if (sms.address.indexOf(window.localStorage['numDispositivo']) > -1) {
+                window.localStorage['ultimaAtualizacao'] = JSON.stringify(sms);
+                decodificar(sms);
+            }
+        });
+
+        if (!window.localStorage['numDispositivo']) {
+            alterar();
+        }
+
+        if(window.localStorage['ultimaAtualizacao']) {
+            decodificar(JSON.parse(window.localStorage['ultimaAtualizacao']));
+        }
+
+        if (SMS) SMS.startWatch(function () {
+        }, function () {
+        });
+    }
+
+    function decodificar(sms) {
+        var dados = sms.body.split(';');
+        for(var i in dados) {
+            var tipovalue = dados[i].split(':');
+            switch (tipovalue[0].trim()) {
+                case "temp":
+                    atualizaTemp(tipovalue[1]);
+                    break;
+                case "lumi":
+                    atualizaLumi(tipovalue[1]);
+                    break;
+                case "porta":
+                    atualizaPorta(tipovalue[1]);
+                    break;
+                case "cortina":
+                    atualizaCortina(tipovalue[1]);
+                    break;
+            }
+        }
+        updateDataHora(parseInt(sms.date));
+    }
+
+    function atualizaTemp(valor) {
+        $('#tempValor').html(valor + " ºC");
+    }
+
+    function atualizaLumi(valor) {
+        $('#lumiValor').html(valor);
+    }
+
+    function atualizaPorta(valor) {
+        var status;
+
+        if(valor == 'aber')
+            status = 'Aberta';
+        else if(valor == 'fech')
+            status = 'Fechada';
+        else
+            status = '-';
+        $('#portaValor').html(status);
+    }
+
+    function atualizaCortina(valor) {
+        var status;
+
+        if(valor == 'on') {
+            status = 'On';
+            if($('#cortinaValor').hasClass('badge-assertive'))
+                $('#cortinaValor').removeClass('badge-assertive');
+            if($('#cortinaValor').hasClass('badge-stable'))
+                $('#cortinaValor').removeClass('badge-stable');
+            $('#cortinaValor').addClass('badge-balanced').html(status);
+        } else if(valor == 'off') {
+            status = 'Off';
+            $('#cortinaValor').removeClass('badge-balanced').addClass('badge-assertive').html(status);
+        } else {
+            status = ' - ';
+            if($('#cortinaValor').hasClass('badge-assertive'))
+                $('#cortinaValor').removeClass('badge-assertive');
+            if($('#cortinaValor').hasClass('badge-balanced'))
+                $('#cortinaValor').removeClass('badge-balanced');
+            $('#cortinaValor').addClass('badge-stable').html(status);
+        }
+    }
+
+    function updateDataHora(timestamp) {
+        var currentdate = new Date(timestamp);
+        var datetime = "Última atualização: " + currentdate.getDate() + "/"
+                + (("0" + (currentdate.getMonth() + 1)).slice(-2)) + "/"
+                + currentdate.getFullYear() + " às "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+        $('#datahora').html(datetime);
+    }
+
+    function atualizar() {
+        if (window.localStorage['numDispositivo']) {
+            window.plugins.spinnerDialog.show();
+            if (SMS) SMS.sendSMS(window.localStorage['numDispositivo'], 'attinfo', function () {
+                window.plugins.spinnerDialog.hide();
+            }, function (str) {
+                window.plugins.spinnerDialog.hide();
+                alert(str);
+            });
+        } else {
+            alterar();
+        }
+    }
+
+    function alterar() {
+        navigator.notification.prompt(
+                'Digite o número do dispositivo',
+                onPrompt,
+                'Cadastrar',
+                ['Salvar']
+        );
+    }
+
+    function ligdescort() {
+        if (window.localStorage['numDispositivo']) {
+            window.plugins.spinnerDialog.show();
+            if (SMS) SMS.sendSMS(window.localStorage['numDispositivo'], 'ligdescort', function () {
+                var status = $('#cortinaValor').hasClass('badge-stable') || $('#cortinaValor').hasClass('badge-assertive') ? 'on' : 'off';
+                atualizaCortina(status);
+                window.plugins.spinnerDialog.hide();
+            }, function (str) {
+                window.plugins.spinnerDialog.hide();
+                alert(str);
+            });
+        } else {
+            alterar();
+        }
+    }
+
+</script>
+<div id="fullpage">
+    <div class="bar-stable bar bar-header disable-user-behavior">
+        <div class="title title-center header-item">Ahoy</div>
+    </div>
+    <h5 id="datahora">
+    </h5>
+
+    <div class="list card">
+        <div class="item item-divider item-icon-right">
+            Ambiente Externo
+            <a onclick="atualizar()"><i class="icon ion-refresh"></i></a>
+        </div>
+        <div class="item item-body">
+            <div class="list">
+                <div class="item item-icon-left">
+                    <i class="icon ion-thermometer"></i>
+                    Temperatura
+<span id="tempValor" class="item-note">
+-
+</span>
+                </div>
+                <div class="item item-icon-left">
+                    <i class="icon ion-lightbulb"></i>
+                    Luminosidade
+<span id="lumiValor" class="item-note">
+-
+</span>
+                </div>
+                <!--<div class="item item-icon-left">
+                    <i class="icon ion-ios-clock"></i>
+                    Sistema de Aquecimento
+<span class="item-note">
+-
+</span>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="list card">
+        <div class="item item-divider item-icon-right">
+            Porta da Estufa
+            <a onclick="atualizar()"><i class="icon ion-refresh"></i></a>
+        </div>
+        <div class="item item-body">
+            <div class="list">
+                <div class="item item-icon-left">
+                    <i class="icon ion-information-circled"></i>
+                    Status
+<span id="portaValor" class="item-note">
+-
+</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="list card">
+        <div class="item item-divider item-icon-right">
+            Cortina de Vento
+            <a onclick="atualizar()"><i class="icon ion-refresh"></i></a>
+        </div>
+        <div class="item item-body">
+            <div class="list">
+                <div class="item item-icon-left">
+                    <i class="icon ion-information-circled"></i>
+                    Status
+<a onclick="ligdescort()"><span id="cortinaValor" class="badge badge-stable" style="margin-right: -25px;">
+ -
+</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="button button-positive button-block  icon ion-refresh" onclick="atualizar()">Atualizar
+    </button>
+    <button class="button button-assertive button-block button-small" onclick="alterar()">Alterar Número
+    </button>
+</div>
+</body>
+</html>
